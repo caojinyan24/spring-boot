@@ -1,0 +1,45 @@
+plugins {
+    id 'java'
+//    id 'maven'
+
+}
+group GROUPID
+version VERSION_SDK
+
+
+dependencies {
+
+//    compile('redis.clients:jedis:2.10.2')
+
+    compile('org.springframework.boot:spring-boot-starter-data-jdbc:2.6.3')
+    compile('com.google.code.gson:gson:2.8.5')
+
+    compile('com.ctrip.framework.apollo:apollo-client:2.3.0')
+    compile('com.google.guava:guava:20.0')
+
+}
+task gradleWrapper(type: Wrapper) {
+    gradleVersion = '6.3' //version required
+}
+test {
+
+}
+
+
+//uploadArchives {
+//    repositories {
+//        mavenDeployer {
+//            repository(url: 'http://artifactory.intra.xiaojukeji.com/artifactory/libs-release/') {
+//                authentication(userName: deployUser, password: deployPassword)
+//            }
+//            snapshotRepository(url: 'http://artifactory.intra.xiaojukeji.com/artifactory/libs-snapshot/') {
+//                authentication(userName: deployUser, password: deployPassword)
+//            }
+//            pom.groupId = GROUPID
+//            pom.artifactId = ARTIFACTID_SDK
+//            pom.version = LIBVERSION_SDK
+//        }
+//    }
+//}
+
+
