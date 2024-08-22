@@ -1,18 +1,79 @@
-plugins {
-    id 'java'
-}
+//apply plugin: 'org.springframework.boot'
 
-group 'caojinyan.examples'
 
+
+group GROUPID
+//version VERSION
 repositories {
+    maven{
+        url 'https://maven.aliyun.com/repository/gradle-plugin'
+    }
+    maven {
+        url 'https://maven.aliyun.com/repository/public/'
+    }
+    maven {
+        url 'https://maven.aliyun.com/repository/central'
+    }
+    maven {
+        url 'https://maven.aliyun.com/repository/apache-snapshots'
+    }
+    mavenLocal()
     mavenCentral()
 }
-
+//buildscript {
+//
+//
+//    dependencies {
+//        classpath("org.springframework.boot:spring-boot-gradle-plugin:2.3.6.RELEASE")
+//    }
+//}
 dependencies {
-    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
-    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
+    compile(project(':sdk'))
+    compile('org.springframework.boot:spring-boot-starter-web:2.7.3')
+    testCompile('org.springframework.boot:spring-boot-starter-test:2.7.3')
+    compile('org.springframework.boot:spring-boot-starter-data-jdbc:2.6.2')
+    compile('org.mybatis.spring.boot:mybatis-spring-boot-starter:2.2.2')
+    compile('mysql:mysql-connector-java:8.0.30')
+
+//    //log4j2
+//    compile('org.apache.logging.log4j:log4j-api')
+//    compile("org.apache.logging.log4j:log4j-core")
+//    compile('org.apache.logging.log4j:log4j-slf4j-impl')
+//
+
+
+    compile('com.google.code.gson:gson:2.10.1')
+    compile('org.springframework.boot:spring-boot-starter-aop:2.6.1')
+    compile('redis.clients:jedis:4.3.1')
+    compile('org.apache.commons:commons-pool2:2.11.1')
+    compile('org.apache.thrift:libthrift:0.16.0')
+
 }
 
+
+
+apply plugin: 'jacoco'
+
+jacoco {
+    toolVersion = "0.8.7"
+}
+
+
 test {
-    useJUnitPlatform()
+    maxParallelForks = 1
+    filter {
+        include '**/caojinyan/**'
+    }
+    jacoco {
+        destinationFile = file("$buildDir/jacoco/jacocoTest.exec")
+        classDumpDir = file("$buildDir/jacoco/classpathdumps")
+    }
+}
+
+jacocoTestReport {
+    reports {
+        xml.enabled = true
+        xml.destination = file("$buildDir/site/jacoco/jacoco.xml")
+        html.destination file("$buildDir/site/jacoco/")
+    }
 }

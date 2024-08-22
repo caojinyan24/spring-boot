@@ -1,0 +1,21 @@
+server:
+  port: 8080
+  servlet:
+    context-path: /
+
+  address: 0.0.0.0
+
+
+
+
+debug: false
+
+
+
+spring:
+  datasource:
+    username: caojinyan
+    jdbcUrl: jdbc:mysql://127.0.0.1:3306/local?useSSL=false&useUnicode=true&characterEncoding=utf-8
+    password: caojinyan
+    driver-class-name: com.mysql.cj.jdbc.Driver
+

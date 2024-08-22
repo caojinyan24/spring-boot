@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="info" strict="true">  <!-- debug -->
+    <Properties>
+        <Property name="LOG_HOME">./logs/cust-center-server</Property>
+        <Property name="BI_LOG_HOME">./logs/cust-center-server</Property>
+        <Property name="ENCODING">utf-8</Property>
+    </Properties>
+    <Appenders>
+        <!-- 定义控制台输出 -->
+        <Console name="CONSOLE-LOG" target="SYSTEM_OUT" follow="true">
+            <PatternLayout pattern="[%level][%d{yyyy-MM-dd'T'HH:mm:ss.SSS+0800}][%logger:%L]%msg%n"/>
+        </Console>
+        <!-- 业务日志 -->
+        <RollingRandomAccessFile name="DEBUG-LOG" fileName="${LOG_HOME}/debug.log"
+                                 filePattern="${LOG_HOME}/debug.log.%d{yyyyMMddHH}">
+            <PatternLayout pattern="[%level][%d{yyyy-MM-dd'T'HH:mm:ss.SSS+0800}][%logger:%L]%msg%n"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy interval="1" modulate="true"/>
+            </Policies>
+        </RollingRandomAccessFile>
+        <RollingRandomAccessFile name="INFO-LOG" fileName="${LOG_HOME}/info.log"
+                                 filePattern="${LOG_HOME}/info.log.%d{yyyyMMddHH}">
+            <PatternLayout pattern="[%level][%d{yyyy-MM-dd'T'HH:mm:ss.SSS+0800}][%logger:%L]%msg%n"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy interval="1" modulate="true"/>
+            </Policies>
+            <Filters>
+                <ThresholdFilter level="info" onMatch="ACCEPT" onMismatch="DENY"/>
+            </Filters>
+        </RollingRandomAccessFile>
+        <!-- ERROR日志 -->
+        <RollingRandomAccessFile name="ERROR-LOG" fileName="${LOG_HOME}/error.log"
+                                 filePattern="${LOG_HOME}/error.log.%d{yyyyMMddHH}">
+            <PatternLayout pattern="[%level][%d{yyyy-MM-dd'T'HH:mm:ss.SSS+0800}][%logger:%L]%msg%n"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy interval="1" modulate="true"/>
+            </Policies>
+            <Filters>
+                <ThresholdFilter level="error" onMatch="ACCEPT" onMismatch="DENY"/>
+            </Filters>
+        </RollingRandomAccessFile>
+        <!-- BI日志 -->
+        <RollingRandomAccessFile name="BI-LOG" fileName="${BI_LOG_HOME}/public.log"
+                                 filePattern="${BI_LOG_HOME}/public.log.%d{yyyyMMddHH}">
+            <PatternLayout pattern="%m%n"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy interval="1" modulate="true"/>
+            </Policies>
+        </RollingRandomAccessFile>
+    </Appenders>
+
+    <Loggers>
+        <!-- 第三方组件日志 debug -->
+        <asyncLogger name="org.springframework" level="info" additivity="false" includeLocation="true">
+            <AppenderRef ref="CONSOLE-LOG"/>
+            <AppenderRef ref="DEBUG-LOG"/>
+            <AppenderRef ref="INFO-LOG"/>
+            <AppenderRef ref="ERROR-LOG"/>
+        </asyncLogger>  <!-- debug -->>
+        <asyncLogger name="org.apache" level="info" additivity="false" includeLocation="true">
+            <AppenderRef ref="CONSOLE-LOG"/>
+            <AppenderRef ref="DEBUG-LOG"/>
+            <AppenderRef ref="INFO-LOG"/>
+            <AppenderRef ref="ERROR-LOG"/>
+        </asyncLogger>
+        <!-- 公司组件日志 -->
+        <asyncLogger name="com.xiaoju.manhattan.global.loan.commons.log.publiclog.PublicLogger" level="info"
+                     additivity="false" includeLocation="true">
+            <AppenderRef ref="BI-LOG"/>
+            <!-- debug -->
+        </asyncLogger>
+
+        <asyncLogger name="com.xiaojukeji.carrera" level="error" additivity="false" includeLocation="true">
+            <AppenderRef ref="DEBUG-LOG"/>
+            <AppenderRef ref="INFO-LOG"/>
+            <AppenderRef ref="ERROR-LOG"/>
+        </asyncLogger>
+
+        <!-- debug -->
+        <asyncLogger name="com.xiaoju" level="info" additivity="false" includeLocation="true">
+            <AppenderRef ref="CONSOLE-LOG"/>
+            <AppenderRef ref="DEBUG-LOG"/>
+            <AppenderRef ref="INFO-LOG"/>
+            <AppenderRef ref="ERROR-LOG"/>
+        </asyncLogger>
+
+        <!--添加mybatis sql 打印-->
+        <asyncLogger name="com.xiaoju.manhattan.global.credit.card.ledger.repository.mybatis.mapper" level="debug"
+                     additivity="false" includeLocation="true">
+            <AppenderRef ref="CONSOLE-LOG"/>
+            <AppenderRef ref="DEBUG-LOG"/>
+            <AppenderRef ref="INFO-LOG"/>
+            <AppenderRef ref="ERROR-LOG"/>
+        </asyncLogger>
+
+        <!-- debug -->
+        <asyncRoot level="info" includeLocation="true">
+            <AppenderRef ref="CONSOLE-LOG"/>
+            <AppenderRef ref="DEBUG-LOG"/>
+            <AppenderRef ref="INFO-LOG"/>
+            <AppenderRef ref="ERROR-LOG"/>
+        </asyncRoot>
+    </Loggers>
+</Configuration>
